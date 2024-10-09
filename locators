@@ -1,0 +1,43 @@
+Локаторы для страницы регистрации:
+
+# Локатор для "Имя"
+#root > div > main > div > form > fieldset:nth-child(1) > div > div > input
+
+# Локатор для "Email"
+#root > div > main > div > form > fieldset:nth-child(2) > div > div > input
+
+# Локатор для "Пароль"
+#root > div > main > div > form > fieldset:nth-child(3) > div > div > input
+
+# Локатор для "Регистрация"
+//*[@id="root"]/div/main/div/form/button
+
+# Локатор для "Зарегистрироваться"
+#root > div > main > div > form > button
+
+# Локатор для "Оформить заказ"
+#root > div > main > section.BurgerConstructor_basket__29Cd7.mt-25 > div > button
+
+
+Локаторы для входа с данными заранее зарегистрируемого пользователя:
+
+# Локатор для "Email"
+#root > div > main > div > form > fieldset:nth-child(1) > div > div > input
+
+# Локатор для "Пароль"
+#root > div > main > div > form > fieldset:nth-child(2) > div > div > input
+
+#Локатор для кнопки "Войти" на странице ".../login"
+#root > div > main > div > form > button
+
+# Локатор кнопки "Оформить заказ"
+#root > div > main > section.BurgerConstructor_basket__29Cd7.mt-25 > div > button
+
+# Локатор для кнопки "Войти" на странице регистрации и странице восстановления пароля
+//*/div/main/div/div/p/a[text()="Войти"]
+
+#Локатор для кнопки "История заказов"
+//*/div/main/div/nav/ul/li/a[text()="История заказов"]
+
+#Локатор для лого
+//*/div/header/nav/div/a'
