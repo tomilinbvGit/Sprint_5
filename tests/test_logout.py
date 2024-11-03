@@ -1,39 +1,37 @@
-from selenium.webdriver.common.by import By
-from selenium import webdriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from TestLocators import Locators
+from conftest import driver
+from data import URLS, DATA
 
 
 class TestLogout:
-    #Тестируем выход из личного кабинет
-    def test_logout_through_personal_account_logout_completed(self):
-        driver = webdriver.Chrome()
-        driver.get("https://stellarburgers.nomoreparties.site")
+    # Тестируем выход из личного кабинет
+    def test_logout_through_personal_account_logout_completed(self, driver):
+        # Открываем главную страницу
+        driver.get(URLS.main_page)
 
         # Находим кнопку "Войти в аккаунт" на главной странице и кликаем
-        driver.find_element(By.CSS_SELECTOR,
-                            '#root > div > main > section.BurgerConstructor_basket__29Cd7.mt-25 > div > button').click()
+        driver.find_element(*Locators.GO_TO_LOGIN_PAGE).click()
 
         # Находим поле "Email" и заполняем его данными заранее зарегистрированного пользователя
-        driver.find_element(By.CSS_SELECTOR,
-                            '#root > div > main > div > form > fieldset:nth-child(1) > div > div > input').send_keys(
-            '45697833@ya.ru')
+        driver.find_element(*Locators.EMAIL_INPUT).send_keys(DATA.pre_registered_email)
 
-        # Находим поле "Пароль" и заполняем его данными
-        driver.find_element(By.CSS_SELECTOR,
-                            '#root > div > main > div > form > fieldset:nth-child(2) > div > div > input').send_keys(
-            'hertond4545')
+        # Находим поле "Пароль" и заполняем его данными заранее зарегистрированного пользователя
+        driver.find_element(*Locators.PASSWORD_INPUT).send_keys(DATA.pre_registered_password)
 
         # Находим кнопку "Войти" и кликаем
-        driver.find_element(By.CSS_SELECTOR, '#root > div > main > div > form > button').click()
+        driver.find_element(*Locators.LOGINING_BUTTON).click()
 
-        # Переходим в личный кабинет
-        driver.find_element(By.XPATH, '//*/div/header/nav/a/p').click()
+        # Переходим в личный кабинет (с ожиданием кликабельности ссылки ЛК)
+        WebDriverWait(driver, 10).until(
+            expected_conditions.element_to_be_clickable(Locators.PERSONAL_ACCOUNT_LINK)).click()
 
         # Ждем, пока прогрузится страница ЛК и жмем кнопку выхода
-        driver.implicitly_wait(3)
-        driver.find_element(By.CSS_SELECTOR, '#root > div > main > div > nav > ul > li:nth-child(3) > button').click()
+        WebDriverWait(driver, 10).until(
+            expected_conditions.element_to_be_clickable(Locators.LOGOUT_BUTTON)).click()
 
-        # Проверяем результат через поиск "Вход"
-        assert WebDriverWait(driver, 5).until(expected_conditions.presence_of_element_located(
-            (By.XPATH, '//*/div/main/div/h2[text()="Вход"]')))
+        # Проверяем результат через поиск кнопки "Войти" на странице авторизации
+        assert WebDriverWait(driver, 10).until(
+            expected_conditions.presence_of_element_located(Locators.LOGINING_BUTTON)
+        )
